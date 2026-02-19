@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.compare_service import compare_faces
 
 router = APIRouter()
@@ -10,9 +10,9 @@ async def compare(
     image1: UploadFile = File(...),
     image2: UploadFile = File(...)
 ):
-    similarity = await compare_faces(image1, image2)
+    try:
+        result = await compare_faces(image1, image2)
+        return result
 
-    return {
-        "similarity_score": similarity,
-        "is_same_person": similarity > 0.75
-    }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
