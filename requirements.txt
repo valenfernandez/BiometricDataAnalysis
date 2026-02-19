@@ -1,1 +1,5 @@
 fastapi
+python-multipart
+dlib 
+opencv-python 
+numpy
