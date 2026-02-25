@@ -195,3 +195,13 @@ h1 {
 .sidebar-inner {
   padding: 24px;
 }
+
+.explanation {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+}
