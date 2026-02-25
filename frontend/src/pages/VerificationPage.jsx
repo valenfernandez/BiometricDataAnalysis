@@ -56,7 +56,7 @@ export default function VerificationPage() {
       {result && (
         <SimilarityCard
           similarity={1 - result.distance}
-          threshold={0.75}
+          threshold={0.4}
         />
       )}
     </div>
