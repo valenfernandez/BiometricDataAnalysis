@@ -109,6 +109,21 @@ h1 {
   margin-top: 10px;
 }
 
+.primary-btn {
+  
+  padding:12px 20px;
+  
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius:8px;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
 .change-link {
   display: block;
   margin-top: 8px;

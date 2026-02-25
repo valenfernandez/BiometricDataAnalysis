@@ -22,3 +22,8 @@ Includes:
 - False accept risk indicator
 
 ---
+back:
+uvicorn app.main:app --reload
+
+front:
+npm run dev
