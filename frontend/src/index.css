@@ -146,3 +146,37 @@ h1 {
   font-size: 14px;
   color: #4b5563;
 }
+
+
+
+
+.nav-item {
+  display: block;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  text-decoration: none;   
+  color: #61656d;          
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: #2c2c2c;
+  color: white;
+}
+
+.nav-item.active {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+}
+
+.nav-item.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sidebar-inner {
+  padding: 24px;
+}

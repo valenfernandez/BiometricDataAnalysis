@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.detection_service import detect_faces
 
-router = APIRouter(prefix="/detect", tags=["Face Detection"])
+router = APIRouter()
 
 
 @router.post("/")

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.landmarks_service import extract_landmarks
 
-router = APIRouter(prefix="/landmarks", tags=["Landmarks"])
+router = APIRouter()
 
 
 @router.post("/")
