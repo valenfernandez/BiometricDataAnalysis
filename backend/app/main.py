@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import compare
+from app.api import compare, detect, landmarks
 
 
 app = FastAPI(
@@ -18,8 +18,8 @@ app.add_middleware(
 )
 
 app.include_router(compare.router, prefix="/compare", tags=["Compare"])
-
-
+app.include_router(detect.router, prefix="/detect", tags=["Detect"])
+app.include_router(landmarks.router, prefix="/landmarks", tags=["Landmarks"])
 
 @app.get("/")
 def root():
