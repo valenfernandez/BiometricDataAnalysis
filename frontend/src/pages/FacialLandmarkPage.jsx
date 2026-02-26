@@ -8,6 +8,7 @@ export default function LandmarkPage() {
   // const [processedImage, setProcessedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [landmarks, setLandmarks] = useState([]);
+  const [measurements, setMeasurements] = useState(null);
   
   const canvasRef = useRef(null);
   const imageRef = useRef(null);
@@ -57,8 +58,44 @@ export default function LandmarkPage() {
     mouth: { start: 48, end: 67, color: "#dc2626" }
   };
 
+  const distance = (p1, p2) => {
+    return Math.sqrt(
+      Math.pow(p1.x - p2.x, 2) +
+      Math.pow(p1.y - p2.y, 2)
+    );
+  };
+
+  const getCenter = (points) => {
+    const sum = points.reduce(
+      (acc, p) => ({
+        x: acc.x + p.x,
+        y: acc.y + p.y
+      }),
+      { x: 0, y: 0 }
+    );
+
+    return {
+      x: sum.x / points.length,
+      y: sum.y / points.length
+    };
+  };
+
   useEffect(() => {
     if (!landmarks.length || !imageRef.current) return;
+
+    const leftEye = getCenter(landmarks.slice(42, 48));
+    const rightEye = getCenter(landmarks.slice(36, 42));
+    const mouthWidth = distance(landmarks[48], landmarks[54]);
+    const faceWidth = distance(landmarks[0], landmarks[16]);
+    const faceHeight = distance(landmarks[8], landmarks[27]);
+    const eyeDistance = distance(leftEye, rightEye);
+
+    setMeasurements({
+      eyeDistance: eyeDistance.toFixed(2),
+      mouthWidth: mouthWidth.toFixed(2),
+      faceWidth: faceWidth.toFixed(2),
+      faceHeight: faceHeight.toFixed(2)
+    });
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -128,6 +165,17 @@ export default function LandmarkPage() {
                   left: 0,
                 }}
               />
+              
+              {measurements && (
+                <div className="measurements">
+                  <h3>Facial Measurements</h3>
+                  <p>Eye Distance: {measurements.eyeDistance}px</p>
+                  <p>Mouth Width: {measurements.mouthWidth}px</p>
+                  <p>Face Width: {measurements.faceWidth}px</p>
+                  <p>Face Height: {measurements.faceHeight}px</p>
+                </div>
+              )}
+
             </div>
           ) : (
             <div className="placeholder">Upload an Image</div>
