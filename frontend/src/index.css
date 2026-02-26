@@ -109,6 +109,44 @@ h1 {
   margin-top: 10px;
 }
 
+.upload-btn.upload {
+  background-color: #3563e9;
+  color: white;
+  box-shadow: 0 4px 12px rgba(53, 99, 233, 0.3);
+}
+
+.upload-btn.upload:hover {
+  background-color: #274bcc;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(53, 99, 233, 0.4);
+}
+
+.upload-btn.change {
+  background-color: #f3f4f6;
+  color: #333;
+  border: 1px solid #d1d5db;
+}
+
+.upload-btn.change:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.compare-btn {
+  background-color: #12349b;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.compare-btn:hover {
+  transform: translateY(-2px);
+}
+
 .primary-btn {
   
   padding:12px 20px;
@@ -122,6 +160,7 @@ h1 {
 
 .primary-btn:hover {
   opacity: 0.9;
+  transform: translateY(-2px);
 }
 
 .change-link {

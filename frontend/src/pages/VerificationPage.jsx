@@ -33,22 +33,14 @@ export default function VerificationPage() {
       <h1>Face Verification</h1>
 
       <div className="image-section">
-        <ImageCard label="Upload Image A" onFileSelect={setImage1} />
-        <ImageCard label="Upload Image B" onFileSelect={setImage2} />
+        <ImageCard onFileSelect={setImage1} />
+        <ImageCard onFileSelect={setImage2} />
       </div>
 
       <button
         onClick={handleCompare}
         disabled={loading}
-        style={{
-          padding: "12px 20px",
-          borderRadius: "8px",
-          background: "#2563eb",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-          marginBottom: "30px",
-        }}
+        class  = "compare-btn"
       >
         {loading ? "Comparing..." : "Compare Faces"}
       </button>

@@ -19,12 +19,15 @@ export default function ImageCard({ label, onFileSelect }) {
         <div className="placeholder">No Image</div>
       )}
 
-      <label className="upload-btn">
-        {label}
-        <input type="file" hidden onChange={handleFile} />
+      <label className={`upload-btn ${preview ? "change" : "upload"}`}>
+        {preview ? "Change Image" : "Upload Image"}
+        <input
+          type="file"
+          hidden
+          onChange={handleFile}
+        />
       </label>
 
-      {preview && <span className="change-link">Change Image</span>}
     </div>
   );
 }
