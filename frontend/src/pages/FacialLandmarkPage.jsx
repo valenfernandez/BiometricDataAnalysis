@@ -47,6 +47,16 @@ export default function LandmarkPage() {
     }
   };
 
+  const landmarkRegions = {
+    jaw: { start: 0, end: 16, color: "#4f46e5" },   
+    rightBrow: { start: 17, end: 21, color: "#d97706" },
+    leftBrow: { start: 22, end: 26, color: "#d97706" },
+    nose: { start: 27, end: 35, color: "#7c3aed" },
+    rightEye: { start: 36, end: 41, color: "#059669" },
+    leftEye: { start: 42, end: 47, color: "#059669" },
+    mouth: { start: 48, end: 67, color: "#dc2626" }
+  };
+
   useEffect(() => {
     if (!landmarks.length || !imageRef.current) return;
 
@@ -63,20 +73,38 @@ export default function LandmarkPage() {
     const scaleX = canvas.width / img.naturalWidth;
     const scaleY = canvas.height / img.naturalHeight;
 
-    ctx.fillStyle = "red";
+    Object.values(landmarkRegions).forEach((region) => {
+    ctx.fillStyle = region.color;
 
-    landmarks.forEach((point) => {
+    for (let i = region.start; i <= region.end; i++) {
+      const point = landmarks[i];
+
       ctx.beginPath();
       ctx.arc(
         point.x * scaleX,
         point.y * scaleY,
-        2,
+        2.5,
         0,
         2 * Math.PI
       );
       ctx.fill();
-    });
+
+      ctx.strokeStyle = "white";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  });
+
+
   }, [landmarks]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }, [preview]);
 
   return (
     <div className="main-content">
