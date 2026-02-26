@@ -8,13 +8,22 @@ export default function SimilarityCard({ similarity, threshold })
   const isMatch = similarity > threshold;
   const distance = 1 - similarity;
   const margin = Math.abs(threshold - distance).toFixed(3);
+  let color;
+
+  if (percentage > 42) {
+    color = "#16a34a"; 
+  } else if (percentage >= 38) {
+    color = "#eab308"; 
+  } else {
+    color = "#dc2626"; 
+  }
 
   return (
     <div className="similarity-card">
       <h2>Similarity Result</h2>
 
       <div className="match-score">
-        <span className="percentage">{percentage}%</span>
+        <span className="percentage" style={{ color }}>{percentage}%</span>
         <span>Match</span>
       </div>
 
