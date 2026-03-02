@@ -3,3 +3,4 @@ python-multipart
 dlib 
 opencv-python 
 numpy
+scikit-learn
