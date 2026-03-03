@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { getLandmarks } from "../services/api";
 
 export default function LandmarkPage() {
   
@@ -27,17 +28,10 @@ export default function LandmarkPage() {
       alert("Please upload an image.");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("image", image);
-
     setLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:8000/landmarks/",
-        formData
-      );
-      setLandmarks(response.data.landmarks);
+      const data = await getLandmarks(image);
+      setLandmarks(data.landmarks);
     } 
     catch (error) {
       console.error(error);

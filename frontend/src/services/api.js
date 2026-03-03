@@ -17,3 +17,23 @@ export const compareFaces = async (image1, image2) => {
 
   return response.data;
 };
+
+
+export const getLandmarks = async (image) => {
+  const formData = new FormData();
+  formData.append("image", image);
+
+  const response = await api.post("/landmarks/", formData);
+  return response.data;
+};
+
+export const clusterFaces = async (images) => {
+  const formData = new FormData();
+
+  images.forEach((img) => {
+    formData.append("images", img);
+  });
+
+  const response = await api.post("/cluster/", formData);
+  return response.data;
+};
