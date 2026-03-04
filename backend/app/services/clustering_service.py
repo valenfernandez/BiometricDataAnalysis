@@ -13,6 +13,7 @@ async def cluster_faces(images: list[UploadFile], threshold: float = 0.6):
 
     embeddings = []
     image_names = []
+    face_metadata = []
     face_detector, shape_predictor, face_rec_model = get_models()
 
     for image in images:
@@ -28,34 +29,47 @@ async def cluster_faces(images: list[UploadFile], threshold: float = 0.6):
             shape = shape_predictor(gray, face)
             embedding = face_rec_model.compute_face_descriptor(img, shape)
             embeddings.append(np.array(embedding))
-            image_names.append(f"{image.filename}_face_{idx}")
+            image_names.append(f"{image.filename}_face_{idx}")  #TODO: FIX if name has _face_
+            face_metadata.append({
+                "image": image.filename,
+                "face_index": idx
+            })
+            
+    if len(embeddings) == 0:
+        raise ValueError("No faces detected in provided images")
 
     embeddings = np.array(embeddings)
+    embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True) 
 
-    clustering = AgglomerativeClustering(
-        n_clusters=None,
-        metric="euclidean",
-        linkage="average",
-        distance_threshold=threshold
-    )
+    if len(embeddings) == 1:
+        reduced = np.array([[0.0, 0.0]])
+        labels = np.array([0])
+    else:
+        clustering = AgglomerativeClustering(
+            n_clusters=None,
+            metric="euclidean",
+            linkage="average",
+            distance_threshold=threshold
+        )
+        labels = clustering.fit_predict(embeddings)
 
-    labels = clustering.fit_predict(embeddings)
+        pca = PCA(n_components=2)
+        reduced = pca.fit_transform(embeddings)
 
-    pca = PCA(n_components=2)
-    reduced = pca.fit_transform(embeddings)
-
-    images_output = []
-
-    for i in range(len(image_names)):
-        images_output.append({
-            "filename": image_names[i],
-            "cluster_id": int(labels[i]),
-            "x": float(reduced[i][0]),
-            "y": float(reduced[i][1])
+    faces_output = []
+    
+    for meta, label, coords in zip(face_metadata, labels, reduced):
+        faces_output.append({
+            "image": meta["image"],
+            "face_index": meta["face_index"],
+            "cluster_id": int(label),
+            "x": float(coords[0]),
+            "y": float(coords[1])
         })
 
     return {
         "total_images": len(images),
+        "total_faces": len(embeddings),
         "total_clusters": len(set(labels)),
-        "images": images_output
-    }
+        "faces": faces_output
+}
