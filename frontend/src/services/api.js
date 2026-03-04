@@ -35,5 +35,9 @@ export const clusterFaces = async (images) => {
   });
 
   const response = await api.post("/cluster/", formData);
+
+  console.log("RAW RESPONSE:", response);
+  console.log("RESPONSE DATA:", response.data);
+  
   return response.data;
 };
