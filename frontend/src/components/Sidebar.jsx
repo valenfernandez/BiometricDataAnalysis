@@ -67,7 +67,14 @@ export default function Sidebar() {
        Facial Landmark Visualization
       </NavLink>
 
-      <div className="nav-item disabled">Clustering</div>
+      <NavLink
+        to="/clustering"
+        className={({ isActive }) =>
+          isActive ? "nav-item active" : "nav-item"
+        }
+      >
+        Clustering
+      </NavLink>
       <div className="nav-item disabled">🛡 Privacy & Info</div>
       </div>
       
