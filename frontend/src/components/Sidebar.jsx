@@ -75,7 +75,16 @@ export default function Sidebar() {
       >
         Clustering
       </NavLink>
-      <div className="nav-item disabled">🛡 Privacy & Info</div>
+      
+      <NavLink
+        to="/privacy"
+        className={({ isActive }) =>
+          isActive ? "nav-item active" : "nav-item"
+        }
+      >
+        🛡 Privacy & Info
+      </NavLink>
+
       </div>
       
     </aside>
