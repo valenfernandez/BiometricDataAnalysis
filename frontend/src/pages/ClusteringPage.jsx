@@ -13,7 +13,12 @@ export default function ClusteringPage() {
   }, [results]);
 
   const handleFiles = (e) => {
-    const files = Array.from(e.target.files);
+
+    const files = Array.from(event.target.files);
+    const imagesWithPreview = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file)
+    }));
 
     if (files.length > 10) {
       alert("Maximum 10 images allowed.");
@@ -22,7 +27,7 @@ export default function ClusteringPage() {
     }
 
     setError(null);
-    setImages(files);
+    setImages(imagesWithPreview);
     setResults(null);
   };
 
@@ -36,7 +41,7 @@ export default function ClusteringPage() {
     setError(null);
 
     try {
-      const data = await clusterFaces(images);
+      const data = await clusterFaces(images.map(i => i.file));
       console.log("Data from clusterFaces:", data);
       setResults(data);
     } catch (err) {
@@ -51,6 +56,11 @@ export default function ClusteringPage() {
     setImages([]);
     setResults(null);
     setError(null);
+  };
+
+  const getPreview = (filename) => {
+    const match = images.find(i => i.file.name === filename);
+    return match ? match.preview : null;
   };
 
   const grouped =
@@ -92,11 +102,18 @@ export default function ClusteringPage() {
         {images.length > 0 && (
           <div className="selected-files">
             <h4>Selected Images</h4>
-            <ul>
+
+            <div className="image-preview-grid">
               {images.map((img, index) => (
-                <li key={index}>{img.name}</li>
+                <div key={index} className="image-preview-card">
+                  <img
+                    src={img.preview}
+                    alt={img.file.name}
+                    className="image-preview"
+                  />
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
@@ -166,11 +183,15 @@ export default function ClusteringPage() {
 
                     <div className="cluster-faces">
                       {faces.map((face, index) => (
-                        <div key={index} className="face-item">
-                          {face.image} – Face #{face.face_index}
+                        <div key={index} className="cluster-face-thumb">
+                          <img
+                            src={getPreview(face.image)}
+                            alt={face.image}
+                          />
                         </div>
                       ))}
                     </div>
+
                   </div>
                 ))}
               </div>
